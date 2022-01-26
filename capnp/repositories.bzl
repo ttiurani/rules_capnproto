@@ -17,6 +17,13 @@ load(
     "RUST_LANG_SHORTNAME",
 )
 load(
+    "//capnp/toolchain_defs:ts_defs.bzl",
+    "TS_LANG_PLUGIN",
+    "TS_LANG_PLUGIN_DEPS",
+    "TS_LANG_REPO",
+    "TS_LANG_SHORTNAME",
+)
+load(
     "//capnp/toolchain_defs:toolchain_defs.bzl",
     "CAPNP_TOOLCHAIN_DEFAULT_CAPNP_TOOL",
     "CAPNP_TOOLCHAIN_REPO",
@@ -48,6 +55,8 @@ def capnp_dependencies():
             "https://github.com/madler/zlib/archive/v1.2.11.tar.gz",
         ],
     )
+
+    # Rust
 
     maybe(
         http_archive,
@@ -98,4 +107,12 @@ def capnp_rust_toolchain(plugin = RUST_LANG_PLUGIN, runtime = RUST_LANG_RUNTIME)
         lang_shortname = RUST_LANG_SHORTNAME,
         plugin = RUST_LANG_PLUGIN,
         runtime = RUST_LANG_RUNTIME,
+    )
+
+def capnp_ts_toolchain(plugin = TS_LANG_PLUGIN): 
+    capnp_lang_toolchain_gen(
+        name = TS_LANG_REPO,
+        lang_shortname = TS_LANG_SHORTNAME,
+        plugin = TS_LANG_PLUGIN,
+        plugin_deps = TS_LANG_PLUGIN_DEPS,
     )

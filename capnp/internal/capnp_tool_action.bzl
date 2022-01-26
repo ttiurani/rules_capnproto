@@ -19,6 +19,9 @@ def capnp_tool_action(
         outputs):
     capnp_tool = capnp_toolchain.capnp_tool.files_to_run.executable
     plugin = capnp_lang_toolchain.plugin.files_to_run.executable
+    plugin_dep_lists = [dep.files.to_list() for dep in capnp_lang_toolchain.plugin_deps]
+    plugin_deps = [file for sublist in plugin_dep_lists for file in sublist]
+    tools = [capnp_tool, plugin] + plugin_deps
     output_prefix = ctx.genfiles_dir.path
     mnemonic = "Capnp{}Gen".format(capitalize_first_char(capnp_lang_toolchain.lang_shortname))
     progress_message = "Generating capnp {} files for {}:".format(
@@ -27,14 +30,14 @@ def capnp_tool_action(
     )
     inputs = depset(transitive = [srcs_transitive, embed_files_transitive])
     genrule_args = \
-        ["compile", "--no-standard-import", "--output={}:{}".format(plugin.path, output_prefix)] + \
+        ["compile", "--verbose", "--no-standard-import", "--output={}:{}".format(plugin.path, output_prefix)] + \
         _include_args_from_depset(includes_transitive) + \
         [src.path for src in srcs]
     ctx.actions.run(
         inputs = inputs,
         outputs = outputs,
         executable = capnp_tool,
-        tools = [capnp_tool, plugin],
+        tools = tools,
         arguments = genrule_args,
         mnemonic = mnemonic,
         progress_message = progress_message,

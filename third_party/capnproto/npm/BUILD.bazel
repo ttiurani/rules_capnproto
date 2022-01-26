@@ -1,0 +1,21 @@
+# Modelled after: https://github.com/stackb/rules_proto/blob/master/deps/ts_proto_deps.bzl
+
+# TODO: the "../../../" is a hack to get around the running of this script happening under .../execroot/__main__/bazel-out/darwin-fastbuild/bin
+#       and $(location) giving "external/..." relative paths.
+genrule(
+    name = "capnpc-ts-gen",
+    visibility = ["//visibility:public"],
+    srcs = [
+        "@npm//capnpc-ts",
+    ],
+    outs = ["capnpc-ts"],
+    cmd = """
+    cat <<\\EOF > $@
+#!/bin/bash
+node_modules=$$(echo "$(locations @npm//capnpc-ts)" | sed 's/node_modules/node_modules /g' | cut -f 1 -d " ")
+../../../$(NODE_PATH) ../../../$${node_modules}/capnpc-ts/bin/capnpc-ts.js
+EOF
+    """,
+    executable = True,
+    toolchains = ["@nodejs_toolchains//:resolved_toolchain"],
+)

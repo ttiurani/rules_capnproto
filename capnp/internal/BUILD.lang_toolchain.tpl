@@ -7,6 +7,7 @@ capnp_lang_toolchain(
     name = "toolchain",
     lang_shortname = "{lang_shortname}",
     plugin = "{plugin}",
+    {plugin_deps}
     {runtime}
     visibility = ["//visibility:public"],
 )
