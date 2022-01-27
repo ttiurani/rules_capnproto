@@ -1,0 +1,27 @@
+licenses(["notice"])  # MIT license
+
+load("@rules_capnproto//third_party/capnproto:cc_defs.bzl", "capnroto_cc_binary")
+load("@rules_capnproto//capnp:capnp_library.bzl", "capnp_library")
+
+# --------------------------------------------------------------------------------------------------
+# capnpc-java
+# --------------------------------------------------------------------------------------------------
+
+capnp_library(
+    name = "capnpc_java_capnp",
+    srcs = ["compiler/src/main/schema/capnp/java.capnp"],
+    includes = ["compiler/src/main/schema"],
+    visibility = ["//visibility:public"],
+)
+
+capnroto_cc_binary(
+    name = "capnpc_java",
+    srcs = ["compiler/src/main/cpp/capnpc-java.c++"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@capnproto//:capnp",
+        "@capnproto//:capnp_json",
+        "@capnproto//:capnpc",
+        "@capnproto//:kj",
+    ],
+)

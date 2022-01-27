@@ -24,6 +24,12 @@ load(
     "TS_LANG_SHORTNAME",
 )
 load(
+    "//capnp/toolchain_defs:java_defs.bzl",
+    "JAVA_LANG_PLUGIN",
+    "JAVA_LANG_REPO",
+    "JAVA_LANG_SHORTNAME",
+)
+load(
     "//capnp/toolchain_defs:toolchain_defs.bzl",
     "CAPNP_TOOLCHAIN_DEFAULT_CAPNP_TOOL",
     "CAPNP_TOOLCHAIN_REPO",
@@ -87,6 +93,19 @@ def capnp_dependencies():
         build_file = Label("//third_party/capnproto/cargo:BUILD.capnpc-0.14.5.bazel"),
     )
 
+    # Java
+
+    maybe(
+        http_archive,
+        name = "capnproto_java",
+        build_file = "@rules_capnproto//third_party/capnproto/java:BUILD.bazel",
+        sha256 = "a9f1e453df358ee18e67d96193ce2a30db694b9d743b563f5c8546d3c8406a14",
+        strip_prefix = "capnproto-java-0.1.13",
+        urls = [
+            "https://github.com/capnproto/capnproto-java/archive/refs/tags/v0.1.13.tar.gz",
+        ],
+    )
+
 def capnp_toolchain(capnp_tool = CAPNP_TOOLCHAIN_DEFAULT_CAPNP_TOOL):
     capnp_toolchain_gen(
         name = CAPNP_TOOLCHAIN_REPO,
@@ -115,4 +134,11 @@ def capnp_ts_toolchain(plugin = TS_LANG_PLUGIN):
         lang_shortname = TS_LANG_SHORTNAME,
         plugin = TS_LANG_PLUGIN,
         plugin_deps = TS_LANG_PLUGIN_DEPS,
+    )
+
+def capnp_java_toolchain(plugin = JAVA_LANG_PLUGIN):
+    capnp_lang_toolchain_gen(
+        name = JAVA_LANG_REPO,
+        lang_shortname = JAVA_LANG_SHORTNAME,
+        plugin = JAVA_LANG_PLUGIN,
     )
