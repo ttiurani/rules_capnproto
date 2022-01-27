@@ -1,0 +1,19 @@
+alias(
+    name = "capnp_rust",
+    actual = "@raze__capnp__0_14_5//:capnp",
+    visibility = ["//visibility:public"],
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)
+
+alias(
+    name = "capnpc_rust",
+    actual = "@raze__capnpc__0_14_5//:cargo_bin_capnpc_rust",
+    visibility = ["//visibility:public"],
+    tags = [
+        "cargo-raze",
+        "manual",
+    ],
+)

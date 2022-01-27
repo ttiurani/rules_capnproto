@@ -1,10 +1,7 @@
-load("@rules_cc//cc:action_names.bzl", "CPP_COMPILE_ACTION_NAME")
-load("@rules_cc//cc:toolchain_utils.bzl", "find_cpp_toolchain")
 load("//capnp:capnp_info.bzl", "CapnpInfo")
 load("//capnp/internal:capnp_lang_toolchain.bzl", "CapnpLangToolchainInfo")
 load("//capnp/internal:capnp_toolchain.bzl", "CapnpToolchainInfo")
 load("//capnp/internal:capnp_tool_action.bzl", "capnp_tool_action")
-load("//capnp/internal:label_utils.bzl", "package_dir")
 load("//capnp/toolchain_defs:rust_defs.bzl", "RUST_LANG_TOOLCHAIN")
 load("//capnp/toolchain_defs:toolchain_defs.bzl", "CAPNP_TOOLCHAIN")
 
