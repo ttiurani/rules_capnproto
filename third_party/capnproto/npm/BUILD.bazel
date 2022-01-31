@@ -3,17 +3,17 @@
 # TODO: the "../../../" is a hack to get around the running of this script happening under .../execroot/__main__/bazel-out/darwin-fastbuild/bin
 #       and $(location) giving "external/..." relative paths.
 genrule(
-    name = "capnpc-ts-gen",
+    name = "capnpc-ts",
     visibility = ["//visibility:public"],
     srcs = [
         "@npm//capnpc-ts",
     ],
-    outs = ["capnpc-ts"],
+    outs = ["capnpc-ts.sh"],
     cmd = """
     cat <<\\EOF > $@
 #!/bin/bash
 node_modules=$$(echo "$(locations @npm//capnpc-ts)" | sed 's/node_modules/node_modules /g' | cut -f 1 -d " ")
-../../../$(NODE_PATH) ../../../$${node_modules}/capnpc-ts/bin/capnpc-ts.js
+../../../$(NODE_PATH) -e "require('../../../$${node_modules}/capnpc-ts/src').run();"
 EOF
     """,
     executable = True,

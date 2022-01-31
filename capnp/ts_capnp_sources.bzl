@@ -5,25 +5,17 @@ load("//capnp/internal:capnp_tool_action.bzl", "capnp_tool_action")
 load("//capnp/toolchain_defs:ts_defs.bzl", "TS_LANG_TOOLCHAIN")
 load("//capnp/toolchain_defs:toolchain_defs.bzl", "CAPNP_TOOLCHAIN")
 
-JS_SRC_FILE_EXTENSION = "js"
-D_TS_SRC_FILE_EXTENSION = "d.ts"
+TS_SRC_FILE_EXTENSION = "ts"
 
 CapnpTsInfo = provider(fields = {
     "ts_srcs": "Typescript source files for this target (non-transitive)",
 })
 
 def _capnp_ts_aspect_impl(target, ctx):
-    js_srcs = [
-        ctx.actions.declare_file(src.basename + "." + JS_SRC_FILE_EXTENSION, sibling = src)
+    ts_srcs = [
+        ctx.actions.declare_file(src.basename + "." + TS_SRC_FILE_EXTENSION, sibling = src)
         for src in target[CapnpInfo].srcs
     ]
-
-    dts_srcs = [
-        ctx.actions.declare_file(src.basename + "." + D_TS_SRC_FILE_EXTENSION, sibling = src)
-        for src in target[CapnpInfo].srcs
-    ]
-
-    ts_srcs = js_srcs + dts_srcs
 
     # Create an action to generate ts sources from the capnp files.
     capnp_tool_action(
