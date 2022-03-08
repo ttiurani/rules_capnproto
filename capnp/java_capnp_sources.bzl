@@ -12,7 +12,7 @@ CapnpJavaInfo = provider(fields = {
 })
 
 def _get_java_file_name(capnp_file_basename):
-    file_name_parts = capnp_file_basename.replace(".capnp", "").split('_')
+    file_name_parts = capnp_file_basename.replace(".capnp", "_capnp").split('_')
     file_name = file_name_parts[0].capitalize()
     for x in file_name_parts[1:]:
         file_name += x.capitalize()
